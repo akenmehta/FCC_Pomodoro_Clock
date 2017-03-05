@@ -9,12 +9,13 @@ var sessionLengthDisplay = document.querySelector("#sessionLength");
 var resetButton = document.querySelector("#reset");
 var startButton = document.querySelector("#start");
 var pauseButton = document.querySelector("#pause");
-
+var resumeButton = document.querySelector("#resume");
 var timer = document.querySelector("#timer");
-var breakLength = 5;
-var sessionLength = 25;
+var breakLength = 1;
+var sessionLength =2;
 var id;
-var displayTimer = "00:00"
+var displayTimer = "00:00";
+var state = true;
 
 //break length
 breakMinus.addEventListener("click", function(){
@@ -44,55 +45,83 @@ sessionPlus.addEventListener("click", function(){
 	timer.textContent = sessionLength + ":00";
 })
 
+//hide Pause and Resume buttons
+pauseButton.style.display = "none";
+resumeButton.style.display = "none";
 //sessions countdown
-function startSessionTimer(min, sec){
+function startTimer(min, sec){
+	startButton.style.display = "none";
+	pauseButton.style.display = "";
 	//console.log("min: " + min + " " + "sec: " +  sec);
 	timer.textContent = (sec >= 10) ? (min + ":" + sec) : (min + ":" + "0" + sec);
 	if(sec == 0){
 		if(min == 0){
-			return startBreakTimer(breakLength, 0);
+			if(state){
+				state = false;
+				//console.log("Break Timer");
+				return startTimer(breakLength, 0);
+			} else {
+				//console.log("Session Timer");
+				state = true;
+				return startTimer(sessionLength, 0);
+			}		
 		} else if(min != 0){
-			sec = 60;
+			sec = 7;
 			min--;
 		}
 	}
 
 	sec--;
 	id = setTimeout(function(){
-		startSessionTimer(min, sec);
-	}, 500);
+		startTimer(min, sec);
+	}, 800);
 }
-//break countdown
-function startBreakTimer(min, sec){
-	//console.log("++++++++++++");
-	//console.log("min: " + min + " " + "sec: " +  sec);
-	timer.textContent = (sec >= 10) ? (min + ":" + sec) : (min + ":" + "0" + sec);
-	if(sec == 0){
-		if(min == 0){
-			return startSessionTimer(sessionLength, 0);
-		} else if(min != 0){
-			sec = 60;
-			min--;
-		}
-	}
 
-	sec--;
-	id = setTimeout(function(){
-		startBreakTimer(min, sec);
-	}, 500);
+function pauseTimer(){
+	pauseButton.style.display = "none";
+	resumeButton.style.display = "";
+	displayTimer = timer.textContent;
+	//console.log("Paused");
+	clearTimeout(id);
 }
-//timer
-startButton.addEventListener("click", function(){
-	startSessionTimer(sessionLength, 0);
-});
-//pause button
-resetButton.addEventListener("click", function(){
-		clearTimeout(id);
-		timer.textContent = "25:00"
-});
 
-//reset
+function resumeTimer(){
+	resumeButton.style.display = "none";
+	pauseButton.style.display = "";
+	var t = displayTimer.split(":");
+	//console.log("resume clicked");
+	startTimer(parseInt(t[0], 10), parseInt(t[1], 10));
+}
 
 function reset(){
-	
+	pauseButton.style.display = "none";
+	resumeButton.style.display = "none";
+	startButton.style.display = "";
+	timer.textContent = "2:00"
+	breakLength = 1;
+	console.log(breakLength);
+	sessionLength = 2;
+	console.log(sessionLength);
+	state = true;
+	clearTimeout(id);
 }
+
+//start timer
+startButton.addEventListener("click", function(){
+	startTimer(sessionLength, 0);
+});
+
+//pause button
+pauseButton.addEventListener("click", function(){
+	pauseTimer();
+});
+
+//resume button
+resumeButton.addEventListener("click", function(){
+	resumeTimer();
+});
+
+//reset button
+resetButton.addEventListener("click", function(){
+	reset();
+});
