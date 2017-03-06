@@ -2,30 +2,40 @@
 <html>
 <head>
 	<title>FCC Pomodoro Clock</title>
+	<link href="https://fonts.googleapis.com/css?family=Droid+Serif|Ranga" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Droid+Serif" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.9/semantic.min.css">
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div >
-		<div>
-			<span>Break Length</span>
-			<button id="breakMinus">-</button>
-			<span id="breakLength">5</span>
-			<button id="breakPlus">+</button>
+	<h2 id="top"><i>FreeCodeCamp </i>Pomodoro Clock</h2>
+	<div class="ui container">
+		<div class="ui grid intervals">
+			<div class="eight wide column">
+				<p>Break Length</p>
+				<button id="breakPlus" class="ui circular icon button"><i class="plus icon"></i></button>
+				<span id="breakLength">5</span>
+				<button id="breakMinus" class="ui circular icon button"><i class="minus icon"></i></button>	
+			</div>
+			<div class="eight wide column">
+				<p id="spacing">Session Length</p>
+				<button id="sessionPlus" class="ui circular icon button"><i class="plus icon"></i></button>
+				<span id="sessionLength">25</span>
+				<button id="sessionMinus" class="ui circular icon button"><i class="minus icon"></i></button>	
+			</div>
 		</div>
-		<div>
-			<span>Session Length</span>
-			<button id="sessionMinus">-</button>
-			<span id="sessionLength">25</span>
-			<button id="sessionPlus">+</button>
-		</div>
-		<button id="start">Start</button>
-		<button id="pause">Pause</button>
-		<button id="resume">Resume</button>
-		<button id="reset">Reset</button>
 
-		<h1 id="timer">2:00</h1>
+		<p class="greenTimer" id="timer">25:00</p>
+
+		<div id="buttons">
+			<button id="reset" class="huge ui red button">Reset</button>
+			<button id="start" class="huge ui green button">Start</button>
+			<button id="pause" class="huge ui blue button">Pause</button>
+			<button id="resume" class="huge ui green button">Resume</button>
+		</div>
 	</div>
 	
 	<script type="text/javascript" src="script.js"></script>
 </body>
 </html>
+

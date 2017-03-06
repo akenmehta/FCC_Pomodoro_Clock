@@ -11,8 +11,8 @@ var startButton = document.querySelector("#start");
 var pauseButton = document.querySelector("#pause");
 var resumeButton = document.querySelector("#resume");
 var timer = document.querySelector("#timer");
-var breakLength = 1;
-var sessionLength =2;
+var breakLength = 5;
+var sessionLength =25;
 var id;
 var displayTimer = "00:00";
 var state = true;
@@ -58,15 +58,19 @@ function startTimer(min, sec){
 		if(min == 0){
 			if(state){
 				state = false;
+				timer.classList.remove("greenTimer");
+				timer.classList.add("redTimer");
 				//console.log("Break Timer");
 				return startTimer(breakLength, 0);
 			} else {
 				//console.log("Session Timer");
 				state = true;
+				timer.classList.remove("redTimer");
+				timer.classList.add("greenTimer");
 				return startTimer(sessionLength, 0);
 			}		
 		} else if(min != 0){
-			sec = 7;
+			sec = 60;
 			min--;
 		}
 	}
@@ -74,7 +78,7 @@ function startTimer(min, sec){
 	sec--;
 	id = setTimeout(function(){
 		startTimer(min, sec);
-	}, 800);
+	}, 1000);
 }
 
 function pauseTimer(){
@@ -97,11 +101,13 @@ function reset(){
 	pauseButton.style.display = "none";
 	resumeButton.style.display = "none";
 	startButton.style.display = "";
-	timer.textContent = "2:00"
-	breakLength = 1;
-	console.log(breakLength);
-	sessionLength = 2;
-	console.log(sessionLength);
+	timer.classList.remove("redTimer");
+	timer.classList.add("greenTimer");
+	timer.textContent = "25:00"
+	breakLength = 5;
+	breakLengthDisplay.textContent = breakLength;
+	sessionLength = 25;
+	sessionLengthDisplay.textContent = sessionLength;
 	state = true;
 	clearTimeout(id);
 }
